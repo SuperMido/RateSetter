@@ -1,9 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using System.Text.RegularExpressions;
 using RateSetter.Data;
 using RateSetter.Models;
 using RateSetter.Services.Coordinates;
 using RateSetter.Services.Interfaces;
+using RateSetter.ViewModels;
 
 namespace RateSetter.Services
 {
@@ -18,19 +19,45 @@ namespace RateSetter.Services
 
         public bool IsMatch(User newUser, User existingUser)
         {
-            var isValidDistance = IsValidDistance(newUser, existingUser);
+            // var isValidDistance = IsValidDistance(newUser, existingUser);
             throw new System.NotImplementedException();
         }
 
-        public bool CreateUser(User newUser)
+        public UserAddressViewModel UserAddressViewModel()
         {
-            throw new NotImplementedException();
+            var userAddressViewModel = new UserAddressViewModel()
+            {
+                Address = new Address(),
+                User = new User()
+            };
+
+            return userAddressViewModel;
         }
 
-        private bool IsValidDistance(User newUser, User existingUser)
+        public bool CreateUser(UserAddressViewModel model)
         {
-            var existingUsers = _context.Users.Any(u => GetDistance(newUser.Address, u.Address) <= 500);
-            return existingUsers;
+            if (IsValidDistance(model.Address))
+            {
+                model.Address.StreetAddress = StringFormater(model.Address.StreetAddress);
+                _context.Addresses.Add(model.Address);
+                _context.SaveChanges();
+                model.User.Name = StringFormater(model.User.Name);
+                model.User.AddressId = model.Address.Id;
+                _context.Users.Add(model.User);
+                _context.SaveChanges();
+            }
+            else
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool IsValidDistance(Address newUser)
+        {
+            var userAddresses = _context.Addresses.ToList();
+            return !userAddresses.Any() || userAddresses.TakeWhile(a => !(GetDistance(newUser, a) <= 0.5)).Any();
         }
 
         private static double GetDistance(Address newUserAddress, Address existingUserAddress)
@@ -45,6 +72,12 @@ namespace RateSetter.Services
                     UnitOfLength.Kilometers
                 );
             return distance;
+        }
+
+        private static string StringFormater(string text)
+        {
+            var result = Regex.Replace(text, @"[^0-9a-zA-Z:,]+", " ");
+            return result;
         }
     }
 }

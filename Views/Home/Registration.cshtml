@@ -1,4 +1,6 @@
-﻿@{
+﻿@model RateSetter.ViewModels.UserAddressViewModel
+
+@{
     ViewData["Title"] = "Registration";
 }
 
@@ -9,36 +11,46 @@
                 <h2 class="text-info">Registration</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
             </div>
-            <form>
+            <form method="post" asp-action="Registration">
                 <div class="mb-3">
-                    <label class="form-label" for="name">Name</label><input class="form-control item" type="text" id="name">
+                    <label class="form-label" >Name</label>
+                    <input class="form-control item" asp-for="User.Name" type="text" id="name">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="name">Address</label><input class="form-control item" type="text" id="address">
+                    <label class="form-label" for="address">Address</label>
+                    <input class="form-control item" asp-for="Address.StreetAddress" type="text" id="address">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="name">Suburb</label><input class="form-control item" type="text" id="Suburb">
+                    <label class="form-label" >Suburb</label>
+                    <input class="form-control item" asp-for="Address.Suburb" type="text" id="Suburb">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="name">State</label><input class="form-control item" type="text" id="State">
+                    <label class="form-label">State</label>
+                    <input class="form-control item" asp-for="Address.State" type="text" id="State">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="name">Latitude</label><input class="form-control item" type="text" id="Latitude">
+                    <label class="form-label" for="name">Latitude</label>
+                    <input class="form-control item" asp-for="Address.Latitude" type="text" id="Latitude">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="name">Longitude</label><input class="form-control item" type="text" id="Longitude">
+                    <label class="form-label" for="name">Longitude</label>
+                    <input class="form-control item" asp-for="Address.Longitude" type="text" id="Longitude">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="password">Password</label><input class="form-control item" type="password" id="password">
+                    <label class="form-label" for="password">Password</label>
+                    <input class="form-control item" type="password" id="password">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="password">Confirmation Password</label><input class="form-control item" type="password" id="confirmPassword">
+                    <label class="form-label" for="password">Confirmation Password</label>
+                    <input class="form-control item" type="password" id="confirmPassword">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="email">Email</label><input class="form-control item" type="email" id="email">
+                    <label class="form-label" for="email">Email</label>
+                    <input class="form-control item" type="email" id="email">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="email">Referral Code</label><input class="form-control item" type="text" id="referralCode">
+                    <label class="form-label" for="email">Referral Code</label>
+                    <input class="form-control item" asp-for="User.ReferralCode" type="text" id="referralCode">
                 </div>
                 <button class="btn btn-primary" type="submit">Sign Up</button>
             </form>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RateSetter.Models;
 using RateSetter.Services.Interfaces;
+using RateSetter.ViewModels;
 
 namespace RateSetter.Controllers
 {
@@ -28,15 +29,16 @@ namespace RateSetter.Controllers
 
         public IActionResult Registration()
         {
-            return View();
+            var model = _userRepository.UserAddressViewModel();
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult Registration(User user)
+        public IActionResult Registration(UserAddressViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _userRepository.CreateUser(user);
+                _userRepository.CreateUser(model);
             }
 
             return RedirectToAction("Index");

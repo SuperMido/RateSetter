@@ -1,10 +1,14 @@
-﻿using RateSetter.Models;
+﻿using System.Threading.Tasks;
+using RateSetter.Models;
+using RateSetter.ViewModels;
 
 namespace RateSetter.Services.Interfaces
 {
     public interface IUserRepository
     {
         bool IsMatch(User newUser, User existingUser);
-        bool CreateUser(User newUser);
+        bool CreateUser(UserAddressViewModel model);
+
+        public UserAddressViewModel UserAddressViewModel();
     }
 }
