@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RateSetter.Data;
+using RateSetter.Services;
+using RateSetter.Services.Interfaces;
 
 namespace RateSetter
 {
@@ -22,6 +24,9 @@ namespace RateSetter
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("SqlServerDocker")));
+            
+            services.AddScoped<IUserRepository, UserRepository>();
+            
             services.AddControllersWithViews();
         }
 
