@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RateSetter.Models;
 
 namespace RateSetter.Data
 {
@@ -8,7 +9,9 @@ namespace RateSetter.Data
         {
             
         }
-        
-        
+
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<User> Users { get; set; }
+
     }
 }
