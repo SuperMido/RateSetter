@@ -1,6 +1,5 @@
 ﻿@{
     ViewData["Title"] = "Registration";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <main class="page registration-page">
@@ -11,10 +10,37 @@
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
             </div>
             <form>
-                <div class="mb-3"><label class="form-label" for="name">Name</label><input class="form-control item" type="text" id="name"></div>
-                <div class="mb-3"><label class="form-label" for="name">Address</label><input class="form-control item" type="text" id="address"></div>
-                <div class="mb-3"><label class="form-label" for="password">Password</label><input class="form-control item" type="password" id="password"></div>
-                <div class="mb-3"><label class="form-label" for="email">Email</label><input class="form-control item" type="email" id="email"></div><button class="btn btn-primary" type="submit">Sign Up</button>
+                <div class="mb-3">
+                    <label class="form-label" for="name">Name</label><input class="form-control item" type="text" id="name">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="name">Address</label><input class="form-control item" type="text" id="address">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="name">Suburb</label><input class="form-control item" type="text" id="Suburb">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="name">State</label><input class="form-control item" type="text" id="State">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="name">Latitude</label><input class="form-control item" type="text" id="Latitude">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="name">Longitude</label><input class="form-control item" type="text" id="Longitude">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="password">Password</label><input class="form-control item" type="password" id="password">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="password">Confirmation Password</label><input class="form-control item" type="password" id="confirmPassword">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="email">Email</label><input class="form-control item" type="email" id="email">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="email">Referral Code</label><input class="form-control item" type="text" id="referralCode">
+                </div>
+                <button class="btn btn-primary" type="submit">Sign Up</button>
             </form>
         </div>
     </section>
