@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RateSetter.Data;
 using RateSetter.Models;
 using RateSetter.Services.Coordinates;
@@ -11,16 +13,23 @@ namespace RateSetter.Services
     public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _context;
+        
+        [TempData]
+        public string StatusMessage { get; set; }
 
         public UserRepository(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public bool IsMatch(User newUser, User existingUser)
+        public bool IsMatch(UserAddressViewModel model)
         {
-            // var isValidDistance = IsValidDistance(newUser, existingUser);
-            throw new System.NotImplementedException();
+            if (!IsValidDistance(model.Address))
+            {
+                return false;
+            }
+
+            return !DoesUserExist(model.User, model.Address);
         }
 
         public UserAddressViewModel UserAddressViewModel()
@@ -36,7 +45,7 @@ namespace RateSetter.Services
 
         public bool CreateUser(UserAddressViewModel model)
         {
-            if (IsValidDistance(model.Address))
+            if (IsMatch(model))
             {
                 model.Address.StreetAddress = StringFormater(model.Address.StreetAddress);
                 _context.Addresses.Add(model.Address);
@@ -56,8 +65,9 @@ namespace RateSetter.Services
 
         private bool IsValidDistance(Address newUser)
         {
-            var userAddresses = _context.Addresses.ToList();
-            return !userAddresses.Any() || userAddresses.TakeWhile(a => !(GetDistance(newUser, a) <= 0.5)).Any();
+            var userAddressesList = _context.Addresses.ToList();
+            return !userAddressesList.Any() || 
+                   userAddressesList.Where(a => !(GetDistance(newUser, a) <= 0.5)).ToList().Any();
         }
 
         private static double GetDistance(Address newUserAddress, Address existingUserAddress)
@@ -78,6 +88,14 @@ namespace RateSetter.Services
         {
             var result = Regex.Replace(text, @"[^0-9a-zA-Z:,]+", " ");
             return result;
+        }
+
+        private bool DoesUserExist(User user, Address address)
+        {
+            var userInDb = _context.Users.Include(a => a.Address).Where(u =>
+                u.Name == user.Name && u.Address.StreetAddress == address.StreetAddress).ToList();
+
+            return userInDb.Any();
         }
     }
 }

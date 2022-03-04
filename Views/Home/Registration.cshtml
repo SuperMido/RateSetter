@@ -10,10 +10,12 @@
             <div class="block-heading">
                 <h2 class="text-info">Registration</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
+                <partial name="_StatusMessage" model="@ViewData["Message"]"/>
             </div>
             <form method="post" asp-action="Registration">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="mb-3">
-                    <label class="form-label" >Name</label>
+                    <label class="form-label">Name</label>
                     <input class="form-control item" asp-for="User.Name" type="text" id="name">
                 </div>
                 <div class="mb-3">
@@ -21,7 +23,7 @@
                     <input class="form-control item" asp-for="Address.StreetAddress" type="text" id="address">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" >Suburb</label>
+                    <label class="form-label">Suburb</label>
                     <input class="form-control item" asp-for="Address.Suburb" type="text" id="Suburb">
                 </div>
                 <div class="mb-3">
@@ -57,3 +59,7 @@
         </div>
     </section>
 </main>
+
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -38,10 +38,17 @@ namespace RateSetter.Controllers
         {
             if (ModelState.IsValid)
             {
-                _userRepository.CreateUser(model);
+                if (_userRepository.CreateUser(model))
+                {
+                    ViewData["Message"] = "success: Welcome to RateSetter!";
+                }
+                else
+                {
+                    ViewData["Message"] = "Error: You must live within 500 meters of existing user or your Referral Code entered by someone!";
+                }
             }
 
-            return RedirectToAction("Index");
+            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
