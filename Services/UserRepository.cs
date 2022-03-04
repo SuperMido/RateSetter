@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +30,16 @@ namespace RateSetter.Services
                 return false;
             }
 
-            return !DoesUserExist(model.User, model.Address);
+            if (DoesUserExist(model.User, model.Address))
+            {
+                return false;
+            }
+            if (!DoesReferralCodeValid(model.User.ReferralCode))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public UserAddressViewModel UserAddressViewModel()
@@ -97,5 +107,48 @@ namespace RateSetter.Services
 
             return userInDb.Any();
         }
+        
+        private static string ReversePartOfString(string text, int start, int length)
+        {
+            var chars = text.ToCharArray();
+
+            for (int a = start, b = start + length - 1; a < b; ++a, --b)
+            {
+                (chars[a], chars[b]) = (chars[b], chars[a]);
+            }
+
+            return new string(chars);
+        }
+
+        private bool DoesReferralCodeValid(string code)
+        {
+            var stringArray = Array.Empty<string>();
+            var listReferCode = _context.Users.Select(u => u.ReferralCode).ToList();
+            if (code.Length % 2 == 0)
+            {
+                for (var i = 0; i <= code.Length / 2; i++)
+                {
+                    var tempString = ReversePartOfString(code, i, 3);
+                    if (listReferCode.Contains(tempString))
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                for (var i = 0; i <= code.Length / 2 + 1; i++)
+                {
+                    var tempString = ReversePartOfString(code, i, 3);
+                    if (listReferCode.Contains(tempString))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+        
     }
 }

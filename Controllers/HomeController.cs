@@ -44,7 +44,7 @@ namespace RateSetter.Controllers
                 }
                 else
                 {
-                    ViewData["Message"] = "Error: You must live within 500 meters of existing user or your Referral Code entered by someone!";
+                    ViewData["Message"] = "Error: You must live within 500 meters of existing user or your Referral Code entered by someone or Referral code is used by someone!";
                 }
             }
 
